@@ -1,0 +1,58 @@
+set nocompatible
+set autoindent
+set smartindent
+set tabstop=4
+set shiftwidth=4
+set showmatch
+set ruler
+set incsearch
+set showcmd
+set hlsearch
+set nobackup
+set number
+set nowrap
+colorscheme wombat
+
+syntax on
+set clipboard=unnamed " Use the system clipboard by default 
+
+map <F1> :previous<CR>  " map F1 to open previous buffer
+map <F2> :next<CR>      " map F2 to open next buffer
+map ,v :sp $HOME/.vimrc<cr> " edit my .vimrc file in a split
+map ,e :e $HOME/.vimrc<cr>      " edit my .vimrc file
+map ,u :source $HOME/.vimrc<cr> " update the system settings from my vimrc file
+
+function! ToggleWrap()
+    set wrap!
+    echo &wrap ? 'wrap' : 'nowrap'
+endfunc
+
+"F12 toggles wrap (Thanks to Alexandre Moreira)
+nnoremap <silent> <F12>      :call ToggleWrap()<CR>
+vnoremap <silent> <F12> <C-C>:call ToggleWrap()<CR>
+inoremap <silent> <F12> <C-O>:call ToggleWrap()<CR>
+
+map ,r :w<CR>:! %<CR>
+
+if has("win32")
+	autocmd GUIEnter * simalt ~ x " start maximized
+	set bs=2 " Enables backspace for deleting on Windows
+elseif has("unix")
+	filetype plugin on
+	set guifont=Consolas\ 12
+	set lines=60       " height = 50 lines
+    set columns=200        " width = 100 columns
+endif
+
+if has("gui")
+	set guioptions-=T
+endif
+
+" disable error beeps
+set noerrorbells
+set visualbell
+set t_vb=
+
+:nmap ,p o<ESC>p " paste in a new line
+
+map <F1> <C-^>
