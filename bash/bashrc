@@ -1,0 +1,13 @@
+PS1='\[\e]0;\w\a\]\[\e[1;32m\]\u@\H \[\e[1;33m\]\w \[\e[1;36m\]$(__git_ps1 "(%s) ")\[\e[1;0m\]\$ '
+
+alias ll='ls -l'
+alias la='ls -A'
+alias ls='ls -hF --color'  # add colors for filetype recognition
+alias grep='grep --color=auto'
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
