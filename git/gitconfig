@@ -1,0 +1,20 @@
+[user]
+	name =
+	email =
+[alias]
+     st = status
+     s = status
+     t = status
+     ts = status
+     co = checkout
+	 graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold cyan)<%an>%Creset' --all --decorate=short --abbrev-commit --date=relative
+[color]
+     branch = auto
+     diff = auto
+     interactive = auto
+     status = auto
+     log = auto
+[core]
+     filemode = false
+	 #pager = less -FXRS -x5
+	 editor = "gvim"
