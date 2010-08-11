@@ -3,12 +3,15 @@ set autoindent
 set smartindent
 set tabstop=4
 set shiftwidth=4
+set expandtab
 set showmatch
 set ruler
+set ignorecase
+set smartcase
 set incsearch
 set showcmd
 set hlsearch
-set nobackup
+" set nobackup
 set number
 set nowrap
 colorscheme wombat
@@ -18,9 +21,16 @@ set clipboard=unnamed " Use the system clipboard by default
 
 map <F1> :previous<CR>  " map F1 to open previous buffer
 map <F2> :next<CR>      " map F2 to open next buffer
-map ,v :sp $HOME/.vimrc<cr> " edit my .vimrc file in a split
-map ,e :e $HOME/.vimrc<cr>      " edit my .vimrc file
-map ,u :source $HOME/.vimrc<cr> " update the system settings from my vimrc file
+
+if has("unix")
+	map ,v :sp $HOME/.vimrc<cr> " edit my .vimrc file in a split
+	map ,e :e $HOME/.vimrc<cr>      " edit my .vimrc file
+	map ,u :source $HOME/.vimrc<cr> " update the system settings from my vimrc file
+elseif has("win32")
+	map ,v :sp $HOME/_vimrc<cr> " edit my .vimrc file in a split
+	map ,e :e $HOME/_vimrc<cr>      " edit my .vimrc file
+	map ,u :source $HOME/_vimrc<cr> " update the system settings from my vimrc file
+endif
 
 function! ToggleWrap()
     set wrap!
@@ -32,11 +42,10 @@ nnoremap <silent> <F12>      :call ToggleWrap()<CR>
 vnoremap <silent> <F12> <C-C>:call ToggleWrap()<CR>
 inoremap <silent> <F12> <C-O>:call ToggleWrap()<CR>
 
-map ,r :w<CR>:! %<CR>
-
 if has("win32")
 	autocmd GUIEnter * simalt ~ x " start maximized
 	set bs=2 " Enables backspace for deleting on Windows
+	set guifont=Consolas:h11
 elseif has("unix")
 	filetype plugin on
 	set guifont=Consolas\ 12
@@ -55,4 +64,18 @@ set t_vb=
 
 :nmap ,p o<ESC>p " paste in a new line
 
-map <F1> <C-^>
+nnoremap D ^C
+nnoremap <esc> :noh<cr><esc>
+
+filetype plugin on
+filetype indent on
+
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+
+if has("win32") || has("win64")
+   set directory=$TMP
+else
+   set directory=/var/tmp
+end
+
+nnoremap D ^C
