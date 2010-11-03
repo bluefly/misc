@@ -11,3 +11,5 @@ alias grep='grep --color=auto'
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+
+mkcd() { mkdir -p "$@" && cd "$_"; }
