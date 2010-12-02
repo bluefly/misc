@@ -1,81 +1,109 @@
 set nocompatible
 set autoindent
 set smartindent
+
+" tabs
 set tabstop=4
 set shiftwidth=4
+set softtabstop=4
 set expandtab
-set showmatch
+
 set ruler
+set showcmd
+set nobackup
+set number
+set cursorline " highlight current line
+" set nowrap
+
+let mapleader = ","
+
+nnoremap / /\v
+vnoremap / /\v
 set ignorecase
 set smartcase
+set gdefault
 set incsearch
-set showcmd
+set showmatch
 set hlsearch
-" set nobackup
-set number
-set nowrap
-colorscheme wombat
+nnoremap <leader><space> :noh<cr>
+nnoremap <tab> %
+vnoremap <tab> %
 
-syntax on
-set clipboard=unnamed " Use the system clipboard by default 
+set wrap
+set textwidth=79
+set formatoptions=qrn1
 
-map <F1> :previous<CR>  " map F1 to open previous buffer
-map <F2> :next<CR>      " map F2 to open next buffer
-
-if has("unix")
-	map ,v :sp $HOME/.vimrc<cr> " edit my .vimrc file in a split
-	map ,e :e $HOME/.vimrc<cr>      " edit my .vimrc file
-	map ,u :source $HOME/.vimrc<cr> " update the system settings from my vimrc file
-elseif has("win32")
-	map ,v :sp $HOME/_vimrc<cr> " edit my .vimrc file in a split
-	map ,e :e $HOME/_vimrc<cr>      " edit my .vimrc file
-	map ,u :source $HOME/_vimrc<cr> " update the system settings from my vimrc file
+if version >= 703
+    " show a colored column at 85 characters
+    set colorcolumn=85
 endif
+
+" set list
+" set listchars=tab:?\ ,eol:¬
+
+" movement by file line instead of screen line
+nnoremap j gj
+nnoremap k gk
+
+" reselect the text that was just pasted
+nnoremap <leader>v V`]
+
+" open a new vertical split and switch over to it
+nnoremap <leader>w <C-w>v<C-w>l
+
+" easier navigation between splits
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" edit my vimrc file
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+nnoremap <leader>u :source $MYVIMRC<cr>
+
+" Make Y not dumb
+nnoremap Y y$
 
 function! ToggleWrap()
     set wrap!
     echo &wrap ? 'wrap' : 'nowrap'
 endfunc
 
-"F12 toggles wrap (Thanks to Alexandre Moreira)
+" F12 toggles wrap (Thanks to Alexandre Moreira)
 nnoremap <silent> <F12>      :call ToggleWrap()<CR>
 vnoremap <silent> <F12> <C-C>:call ToggleWrap()<CR>
 inoremap <silent> <F12> <C-O>:call ToggleWrap()<CR>
 
 if has("win32")
 	autocmd GUIEnter * simalt ~ x " start maximized
+    autocmd BufReadPre //* :NoMatchParen " disable parenthsis matching when opening files on Windows shares
 	set bs=2 " Enables backspace for deleting on Windows
 	set guifont=Consolas:h11
-elseif has("unix")
-	filetype plugin on
-	set guifont=Consolas\ 12
-	set lines=60       " height = 50 lines
-    set columns=200        " width = 100 columns
+    set directory=$TMP
+    set clipboard=unnamed " Use the system clipboard by default 
+else
+    " Sudo to write
+    cmap w!! w !sudo tee % >/dev/null
+
+    set directory=/var/tmp
+    let g:clipbrdDefaultReg = '+' 
 endif
 
 if has("gui")
 	set guioptions-=T
 endif
 
-" disable error beeps
-set noerrorbells
-set visualbell
-set t_vb=
-
-:nmap ,p o<ESC>p " paste in a new line
+nnoremap <leader>cd :cd %:p:h<CR>
 
 nnoremap D ^C
-nnoremap <esc> :noh<cr><esc>
+map <leader>a :e c:/Actimize/ais_server1/d/ais_config.xml<cr>
 
+set wildignore+=*.o,*.obj,.git,3rdParty/**
+
+" set Command-T file limit
+let g:CommandTMaxFiles=40000
+
+colorscheme molokai
+syntax on
 filetype plugin on
-filetype indent on
-
 autocmd FileType python set omnifunc=pythoncomplete#Complete
-
-if has("win32") || has("win64")
-   set directory=$TMP
-else
-   set directory=/var/tmp
-end
-
-nnoremap D ^C
